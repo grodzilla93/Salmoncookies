@@ -66,11 +66,9 @@ var lima = new Store('Lima', 2, 16, 4.6);
 
 //Populate Data
 for( var i = 0; i < allStores.length; i++){
-  var store = allStores[i];
 
-  store.generateCustomersEachHour();
-  store.generateCookieSalesEachHour();
-  store.generateCookieSalesTotal();
+  allStores[i].generateCustomersEachHour();
+  allStores[i].generateCookieSalesEachHour();
+  allStores[i].generateCookieSalesTotal();
 
 }
-//Render
