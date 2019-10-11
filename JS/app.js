@@ -7,6 +7,42 @@ function randomNumber(min, max) {
 //Global Variables
 var shopHours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm','3pm', '4pm', '5pm', '6pm', '7pm','8pm'];
 var allStores = [];
+var tableEl = document.getElementById('globalSales');
+var trEl = document.createElement('tr');
+var thEL = document.createElement('th');
+var tdEl = document.createElement('td');
+
+function createHeader(){
+  trEl = document.createElement('tr');
+  thEL = document.createElement('th');
+  thEL.textContent = '';
+  trEl.appendChild(thEL);
+  for(var i=0; i < shopHours.length; i++){
+    thEL = document.createElement('th');
+    thEL.textContent = shopHours[i];
+    trEl.appendChild(thEL);
+  }
+  thEL = document.createElement('th');
+  thEL.textContent = 'Total';
+  trEl.appendChild(thEL);
+  tableEl.appendChild(trEl);
+}
+createHeader();
+Store.prototype.createRow = function(){
+  trEl = document.createElement('tr');
+  thEL = document.createElement('th');
+  thEL.textContent = this.location;
+  trEl.appendChild(thEL);
+  for( var i=0; i < this.cookieSalesEachHour.length; i++){
+    tdEl = document.createElement('td');
+    tdEl.textContent= this.cookieSalesEachHour[i];
+    trEl.appendChild(tdEl);
+  }
+  thEL = document.createElement('th');
+  thEL.textContent = this.cookiesTotal;
+  trEl.appendChild(thEL);
+  tableEl.appendChild(trEl);
+}
 
 //Store Constructor
 function Store(location, minCustomersPerhour, maxCustomersPerhour,averageCookiesPerCustomer){
@@ -19,8 +55,14 @@ function Store(location, minCustomersPerhour, maxCustomersPerhour,averageCookies
   this.cookieSalesEachHour = [];
   this.cookiesTotal = 0;
 
+  this.generateCustomersEachHour();
+  this.generateCookieSalesEachHour();
+  this.generateCookieSalesTotal();
+
   allStores.push(this);
+  this.createRow();
 }
+console.log(allStores)
 
 Store.prototype.generateCustomersEachHour = function() {
   for( var i = 0; i < shopHours.length; i++) {
@@ -38,7 +80,6 @@ Store.prototype.generateCookieSalesEachHour = function() {
 
 Store.prototype.render = function(){
   for( var i = 0; i < shopHours.length; i++){
-    var ThEL = document.createElement('Th');
     ThEL.textContent = `${shopHours[i]} Cookies:${this.cookiesEachHour[i]}`;
     allStores.appendChild(ThEL);
   }
@@ -65,10 +106,3 @@ var paris = new Store('Paris', 20, 38, 2.3);
 var lima = new Store('Lima', 2, 16, 4.6);
 
 //Populate Data
-for( var i = 0; i < allStores.length; i++){
-
-  allStores[i].generateCustomersEachHour();
-  allStores[i].generateCookieSalesEachHour();
-  allStores[i].generateCookieSalesTotal();
-
-}
