@@ -42,6 +42,32 @@ Store.prototype.createRow = function(){
   thEL.textContent = this.cookiesTotal;
   trEl.appendChild(thEL);
   tableEl.appendChild(trEl);
+};
+function footrow (){
+  trEl = document.createElement('tr');
+  thEL = document.createElement('th');
+  thEL.textContent = 'Totals';
+  trEl.appendChild(thEL);
+  var totalOfTotals = 0;
+
+  for (var i =0; i< shopHours.length; i++){
+    var cookies = 0;
+    thEL = document.createElement('th');
+
+    for (var j = 0; j < allStores.length; j++){
+      cookies += allStores[j].cookieSalesEachHour[i];
+    }
+    thEL.textContent = cookies;
+    totalOfTotals+=cookies;
+    console.log(cookies);
+    trEl.appendChild(thEL);
+
+  }
+  thEL = document.createElement('th');
+  thEL.textContent = totalOfTotals;
+  trEl.appendChild(thEL);
+  tableEl.appendChild(trEl);
+
 }
 
 //Store Constructor
@@ -62,7 +88,7 @@ function Store(location, minCustomersPerhour, maxCustomersPerhour,averageCookies
   allStores.push(this);
   this.createRow();
 }
-console.log(allStores)
+console.log(allStores);
 
 Store.prototype.generateCustomersEachHour = function() {
   for( var i = 0; i < shopHours.length; i++) {
@@ -106,3 +132,5 @@ var paris = new Store('Paris', 20, 38, 2.3);
 var lima = new Store('Lima', 2, 16, 4.6);
 
 //Populate Data
+
+footrow();
