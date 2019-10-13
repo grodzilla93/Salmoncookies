@@ -43,7 +43,7 @@ Store.prototype.createRow = function(){
   trEl.appendChild(thEL);
   tableEl.appendChild(trEl);
 };
-function footrow (){
+function footRow (){
   trEl = document.createElement('tr');
   thEL = document.createElement('th');
   thEL.textContent = 'Totals';
@@ -133,4 +133,31 @@ var lima = new Store('Lima', 2, 16, 4.6);
 
 //Populate Data
 
-footrow();
+footRow();
+
+var storeForm = document.getElementById('newStoreForm');
+storeForm.addEventListener('submit', handleSubmit);
+
+function handleSubmit (event){
+
+  event.preventDefault();
+  var createRow = event.target.LocationName.value;
+  var minCustomersPerhour = event.target.MinCust.value;
+  var maxCustomersPerhour = event.target.MaxCust.value;
+  var averageCookiesPerCustomer = event.target.Average.value;
+  function compareMinMax(min, max, location, average){
+    if (min >= max){
+      alert('Invalid input. Minimum Customers must be lower than Maximum Customers.');
+    }
+    else{
+      table.removeChild(table.lastChild);
+      new SalesPerLocation(location, min, max, average);
+      footerRow();
+    }
+  }
+  event.target.LocationName.value=null;
+  event.target.MinCust.value=null;
+  event.target.MaxCust.value=null;
+  event.target.Average.value=null;
+  console.log(event);
+}
